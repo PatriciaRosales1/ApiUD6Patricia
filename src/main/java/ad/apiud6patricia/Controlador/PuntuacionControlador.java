@@ -31,12 +31,12 @@ public class PuntuacionControlador {
     }
 
     //Alta de una puntuacion
-    @PostMapping("/juego/{id}")  //categoría donde se va a dar de alta
+    @PostMapping("/juego/{id}")  //juego donde se va a dar de alta
     Puntuacion crearPuntuacion(@PathVariable Long id, @RequestBody Puntuacion puntuacion) {
-        //Busca la categoría por id y la añade
+        //Busca el juego por id y lo añade
         Puntuacion p = juegoRepositorio.findById(id).map(
-                categoria -> {
-                    puntuacion.setJuego(categoria);
+                juego -> {
+                    puntuacion.setJuego(juego);
                     return puntuacionRepositorio.save(puntuacion);
                 }
         ).orElseThrow(() -> new RuntimeException("Juego no encontrado."));
@@ -48,7 +48,7 @@ public class PuntuacionControlador {
     Puntuacion actualizarPuntuacion(@PathVariable Long id, @RequestBody Puntuacion puntuacion) {
         return puntuacionRepositorio.findById(id).map(puntuacionTemp -> {
             puntuacionTemp.setNombreJugador((puntuacion.getNombreJugador() != null) ? puntuacion.getNombreJugador() : puntuacionTemp.getNombreJugador()); //para que compruebe si el campo está vacío
-            puntuacionTemp.setPuntuacion(Double.parseDouble((puntuacion.getPuntuacion() != 0) ? puntuacion.getNombreJugador() : puntuacionTemp.getNombreJugador())); //para que compruebe si el campo está vacío)
+            puntuacionTemp.setPuntuacion(puntuacion.getPuntuacion());
                     return puntuacionRepositorio.save(puntuacionTemp);
                 }
         ).orElseThrow(() -> new RuntimeException("Puntuacion no encontrada."));
@@ -58,5 +58,11 @@ public class PuntuacionControlador {
     @DeleteMapping("/{id}")
     void eliminarPuntuacion(@PathVariable Long id) {
         puntuacionRepositorio.deleteById(id);
+    }
+
+    //Mostrar puntuaciones de un juego por ID
+    @GetMapping("/juego/{id}")
+    public List<Puntuacion> listarPuntuacionesPorJuego(@PathVariable Long id) {
+        return puntuacionRepositorio.findByJuegoId(id);
     }
 }

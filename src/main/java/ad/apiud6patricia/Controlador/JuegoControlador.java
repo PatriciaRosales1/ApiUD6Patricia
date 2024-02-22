@@ -3,6 +3,7 @@ package ad.apiud6patricia.Controlador;
 import ad.apiud6patricia.Modelo.Juego;
 import ad.apiud6patricia.Repositorio.JuegoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,5 +49,11 @@ public class JuegoControlador {
     @DeleteMapping("/{id}")
     void eliminarJuego(@PathVariable Long id) {
         juegoRepositorio.deleteById(id);
+    }
+
+    //Ordenar los juegos
+    @GetMapping("/api/juegosordenados")
+    public List<Juego> mostrarJuegosOrdenados() {
+        return juegoRepositorio.findAll(Sort.by(Sort.Direction.DESC, "nombre"));
     }
 }

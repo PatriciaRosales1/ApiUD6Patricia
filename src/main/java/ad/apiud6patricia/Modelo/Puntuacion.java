@@ -9,7 +9,7 @@ public class Puntuacion {
     long id;
 
     private String nombreJugador;
-    private double puntuacion;
+    private int puntuacion;
 
     @ManyToOne
     @JoinColumn(name = "id_juego")
@@ -18,7 +18,7 @@ public class Puntuacion {
     public Puntuacion() {
     }
 
-    public Puntuacion(long id, String nombreJugador, double puntuacion, Juego juego) {
+    public Puntuacion(long id, String nombreJugador, int puntuacion, Juego juego) {
         this.id = id;
         this.nombreJugador = nombreJugador;
         this.puntuacion = puntuacion;
@@ -41,11 +41,11 @@ public class Puntuacion {
         this.nombreJugador = nombreJugador;
     }
 
-    public double getPuntuacion() {
+    public int getPuntuacion() {
         return puntuacion;
     }
 
-    public void setPuntuacion(double puntuacion) {
+    public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
 
