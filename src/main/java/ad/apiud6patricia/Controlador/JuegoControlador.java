@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin //para que se pueda utilizar la api en modo local
 @RestController //porque va a ser una api
 @RequestMapping("/api/juego") //para que apunte a una ruta concreta
 public class JuegoControlador {
@@ -39,7 +40,7 @@ public class JuegoControlador {
     Juego actualizarJuego(@PathVariable Long id, @RequestBody Juego juego) {
         return juegoRepositorio.findById(id).map(
                 juegoTemp -> {
-                    juegoTemp.setNombre((juego.getNombre() != null) ? juego.getNombre() : juegoTemp.getNombre()); //para que compruebe si el campo está vacío);
+                    juegoTemp.setNombre((juego.getNombre() != null) ? juego.getNombre() : juegoTemp.getNombre()); //para que compruebe si el campo está vacío;
                     return juegoRepositorio.save(juegoTemp);
                 }
         ).orElseThrow(() -> new RuntimeException("Juego no encontrado."));

@@ -8,3 +8,4 @@ import java.util.List;
 public interface PuntuacionRepositorio extends JpaRepository<Puntuacion, Long> {
     List<Puntuacion> findByJuegoId(Long idJuego);
 }
+

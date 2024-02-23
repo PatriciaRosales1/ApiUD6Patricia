@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin //para que se pueda utilizar la api en modo local
 @RestController
 @RequestMapping("/api/puntuacion")
 public class PuntuacionControlador {
@@ -48,7 +49,7 @@ public class PuntuacionControlador {
     Puntuacion actualizarPuntuacion(@PathVariable Long id, @RequestBody Puntuacion puntuacion) {
         return puntuacionRepositorio.findById(id).map(puntuacionTemp -> {
             puntuacionTemp.setNombreJugador((puntuacion.getNombreJugador() != null) ? puntuacion.getNombreJugador() : puntuacionTemp.getNombreJugador()); //para que compruebe si el campo está vacío
-            puntuacionTemp.setPuntuacion(puntuacion.getPuntuacion());
+            puntuacionTemp.setPuntuacion((puntuacion.getPuntuacion() < 0) ? 0 : puntuacionTemp.getPuntuacion());  //si se escribe una puntuación menor que 0 se pone a 0
                     return puntuacionRepositorio.save(puntuacionTemp);
                 }
         ).orElseThrow(() -> new RuntimeException("Puntuacion no encontrada."));
